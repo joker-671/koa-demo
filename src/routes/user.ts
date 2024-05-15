@@ -3,7 +3,7 @@ import Router from 'koa-router'
 
 const userRoutes = new Router();
 
-interface UserInfo {
+export interface UserInfo {
   id?: number;
   phone: string;
   password: string;
@@ -70,7 +70,7 @@ userRoutes.post('/api/user/regist', ctx => {
     };
     return
   }
-  const users = getData('users') as (UserInfo[] | undefined);
+  const users = (getData('users') as UserInfo[]) || [];
   const target = {
     decription: '',
     avatar: '',
@@ -83,7 +83,7 @@ userRoutes.post('/api/user/regist', ctx => {
     if (result) {
       ctx.body = {
         code: -1,
-        message: 'The account is exist!',
+        message: 'The phone is exist!',
         data: null
       };
       return
@@ -120,7 +120,7 @@ userRoutes.post('/api/user/edit', ctx => {
       return
     }
     const result = users.map(item => {
-      if(item.id == sign.id){
+      if (item.id == sign.id) {
         return {
           ...item,
           ...data

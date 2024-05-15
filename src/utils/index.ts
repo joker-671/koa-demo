@@ -1,24 +1,12 @@
-import path from "path";
+import path, { resolve } from "path";
 import fs from 'fs';
 import crypto from 'crypto';
 import get from 'lodash/get';
 import set from 'lodash/set';
+import { reject } from "lodash";
 
 export const dirName = process.cwd();
 const cache_file = path.resolve(dirName, 'cache/data.json');
-
-(() => {
-  const cachePath = path.resolve(dirName, 'cache');
-  if (!fs.existsSync(cachePath)) {
-    fs.mkdir(cachePath, { recursive: true }, err => {
-      if (err) {
-        console.log(err);
-        return
-      }
-      console.log('Directory created successfully!')
-    })
-  }
-})()
 
 // 将数据写入JSON文件
 export const setData = (data: Partial<any>, propertyPath: string) => {
@@ -60,3 +48,15 @@ export const base64Decode = (str: string) => {
   const buffer = Buffer.from(str, 'base64');
   return buffer.toString('utf-8');
 };
+
+export const makeDir = (dir: string) => {
+  return new Promise((resolve, reject) => {
+    fs.mkdir(dir, { recursive: true }, (error) => {
+      if (error) {
+        reject(error)
+        return console.error(error);
+      }
+      resolve(`目录 '${dir}' 创建成功！`)
+    });
+  })
+}
