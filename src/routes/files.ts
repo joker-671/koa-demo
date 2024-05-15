@@ -27,7 +27,6 @@ filesRoutes.post('/api/files/upload', ctx => {
     }
     const fileList = Array.from(new Set([...userFiles, ...paths]));
     assets[id] = fileList;
-    console.log(assets)
     setData(assets, `assets`)
     ctx.body = {
       code: 0,

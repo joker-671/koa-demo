@@ -1,9 +1,7 @@
-import path, { resolve } from "path";
+import path from "path";
 import fs from 'fs';
-import crypto from 'crypto';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import { reject } from "lodash";
 
 export const dirName = process.cwd();
 const cache_file = path.resolve(dirName, 'cache/data.json');
@@ -29,14 +27,6 @@ export const getData = (propertyPath?: string) => {
     }
   }
   return undefined;
-};
-
-// 保存上传的文件
-export const saveFile = (file: any) => {
-  const fileHash = crypto.createHash('md5').update(file).digest('hex');
-  const filePath = path.join(dirName, 'assets', fileHash);
-  fs.writeFileSync(filePath, file);
-  return fileHash;
 };
 
 export const base64Encode = (str: string) => {
